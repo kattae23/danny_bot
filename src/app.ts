@@ -32,10 +32,8 @@ client.on(Events.MessageCreate, async (message) => {
         });
       }
 
-      if (message.content.startsWith('giphy')) {
+      if (message.content.toLocaleLowerCase().startsWith('giphy')) {
         const newMessage = message.content.slice(5);
-
-        console.log(newMessage);
 
         const resp = await fetch(
           `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${newMessage}&limit=1`,
@@ -52,8 +50,6 @@ client.on(Events.MessageCreate, async (message) => {
         } = data[0];
 
         const imageData = await fetch(url);
-
-        console.log(url);
 
         const buffer = await imageData.arrayBuffer();
         const imageBuffer = Buffer.from(buffer);
