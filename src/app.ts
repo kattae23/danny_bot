@@ -1,5 +1,6 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
+import { fetchGiphyImage, fetchImage } from './hooks/fetch-image-api';
 dotenv.config();
 
 const client = new Client({
@@ -21,43 +22,16 @@ client.on(Events.MessageCreate, async (message) => {
 
     if (message.content && message.author.id !== client.user.id) {
       if (message.content.toLowerCase() === 'gato') {
-        const data = await fetch('https://cataas.com/cat');
-
-        const buffer = await data.arrayBuffer();
-        const imageBuffer = Buffer.from(buffer);
-
-        await message.reply({
-          content: 'Gaticoo',
-          files: [{ attachment: imageBuffer, name: 'gato.jpg' }],
-        });
+        await fetchImage('https://cataas.com/cat', message, 'Gaticoo');
       }
 
       if (message.content.toLocaleLowerCase().startsWith('giphy')) {
         const newMessage = message.content.slice(5);
-
-        const resp = await fetch(
+        await fetchGiphyImage(
           `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${newMessage}&limit=1`,
+          message,
+          'Toma tu mierda',
         );
-
-        const { data } = await resp.json();
-
-        const {
-          type,
-          slug,
-          images: {
-            downsized_medium: { url },
-          },
-        } = data[0];
-
-        const imageData = await fetch(url);
-
-        const buffer = await imageData.arrayBuffer();
-        const imageBuffer = Buffer.from(buffer);
-
-        await message.reply({
-          content: 'Toma tu mierda',
-          files: [{ attachment: imageBuffer, name: `${slug}.${type}` }],
-        });
       }
     }
   } catch (error) {
