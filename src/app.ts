@@ -34,10 +34,13 @@ client.on(Events.MessageCreate, async (message) => {
         );
       }
 
+      const insults = ['puto', 'linda', 'puta', 'perra', 'pene'];
+
       if (
         message.content
           .toLocaleLowerCase()
-          .includes('linda' || 'perra' || 'maldita' || 'mamaguevo' || 'verga')
+          .split(' ')
+          .some((insult) => insults.includes(insult))
       ) {
         const resp = await fetch('https://insult.mattbas.org/api/adjective');
 
