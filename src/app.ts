@@ -35,11 +35,11 @@ client.on(Events.MessageCreate, async (message) => {
       }
 
       if (message.content.toLocaleLowerCase().includes('linda')) {
-        // const insult = await (
-        //   await fetch('https://insult.mattbas.org/api/adjective')
-        // ).json();
+        const resp = await fetch('https://insult.mattbas.org/api/adjective');
 
-        await message.reply(`Thank's`);
+        const insult = await resp.text();
+
+        await message.reply(`Thank's ${insult}`);
       }
     }
   } catch (error) {
