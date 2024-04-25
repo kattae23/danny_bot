@@ -27,7 +27,7 @@ client.on(Events.MessageCreate, async (message) => {
         const imageBuffer = Buffer.from(buffer);
 
         await message.reply({
-          content: 'Gaticoo:',
+          content: 'Gaticoo',
           files: [{ attachment: imageBuffer, name: 'gato.jpg' }],
         });
       }
