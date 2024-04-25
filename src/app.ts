@@ -34,7 +34,7 @@ client.on(Events.MessageCreate, async (message) => {
         );
       }
 
-      const insults = ['puto', 'linda', 'puta', 'perra', 'pene'];
+      const insults = ['puto', 'linda', 'puta', 'perra', 'pene', 'pipe'];
 
       if (
         message.content
@@ -47,6 +47,21 @@ client.on(Events.MessageCreate, async (message) => {
         const insult = await resp.text();
 
         await message.reply(`Thank's ${insult}`);
+      }
+
+      const keys = ['insultame', 'insult me', 'insúltame'];
+
+      if (
+        message.content
+          .toLocaleLowerCase()
+          .split(' ')
+          .some((insult) => keys.includes(insult))
+      ) {
+        const resp = await fetch('https://insult.mattbas.org/api/insult');
+
+        const insult = await resp.text();
+
+        await message.reply(insult);
       }
     }
   } catch (error) {
