@@ -49,7 +49,7 @@ client.on(Events.MessageCreate, async (message) => {
         await message.reply(`Thank's ${insult}`);
       }
 
-      const keys = ['insultame', 'insult me', 'insúltame'];
+      const keys = ['insultame', 'insult me', 'insúltame', 'insult', 'insu'];
 
       if (
         message.content
