@@ -33,6 +33,13 @@ client.on(Events.MessageCreate, async (message) => {
           'Toma tu mierda',
         );
       }
+
+      if (message.content.toLocaleLowerCase().includes('linda')) {
+        const insult = await (
+          await fetch('https://insult.mattbas.org/api/adjective')
+        ).json();
+        await message.reply(`Thank's ${insult}`);
+      }
     }
   } catch (error) {
     console.log(error);
