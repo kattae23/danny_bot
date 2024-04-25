@@ -27,4 +27,4 @@ jobs:
           git pull origin main
           pnpm install
           pnpm build
-          pm2 restart danny_bot
+          pm2 restart danny_bot --update-env
