@@ -1,7 +1,16 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { fetchGiphyImage, fetchImage } from './hooks/fetch-image-api';
+import { fetchGiphyImage, fetchImage, fetchInsults } from './hooks/fetch-api';
 dotenv.config();
+
+const OPTIONS = {
+  GIPHY_URL: `${process.env.API_GIPHY_URL}?api_key=${process.env.GIPHY_KEY}`,
+  ADJETIVE_URL: `${process.env.ADJETIVE_API_URL}`,
+  INSULT_URL: `${process.env.INSULT_API_URL}`,
+  INSULTS: ['puto', 'linda', 'puta', 'perra', 'pene', 'pipe'],
+  KEYS: ['insultame', 'insult me', 'insúltame', 'insult', 'insu'],
+  GIFS: ['giphy', 'gif'],
+};
 
 const client = new Client({
   intents: [
@@ -25,44 +34,22 @@ client.on(Events.MessageCreate, async (message) => {
         await fetchImage('https://cataas.com/cat', message, 'Gaticoo');
       }
 
-      if (message.content.toLocaleLowerCase().startsWith('giphy')) {
-        const newMessage = message.content.slice(5);
-        await fetchGiphyImage(
-          `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${newMessage}&limit=1`,
-          message,
-          'Toma tu mierda',
-        );
-      }
+      await fetchGiphyImage(
+        `${OPTIONS.GIPHY_URL}`,
+        message,
+        'Toma tu mierda',
+        20,
+        OPTIONS.GIFS,
+      );
 
-      const insults = ['puto', 'linda', 'puta', 'perra', 'pene', 'pipe'];
+      await fetchInsults(
+        `${OPTIONS.ADJETIVE_URL}`,
+        message,
+        OPTIONS.INSULTS,
+        "Thank's",
+      );
 
-      if (
-        message.content
-          .toLocaleLowerCase()
-          .split(' ')
-          .some((insult) => insults.includes(insult))
-      ) {
-        const resp = await fetch('https://insult.mattbas.org/api/adjective');
-
-        const insult = await resp.text();
-
-        await message.reply(`Thank's ${insult}`);
-      }
-
-      const keys = ['insultame', 'insult me', 'insúltame', 'insult', 'insu'];
-
-      if (
-        message.content
-          .toLocaleLowerCase()
-          .split(' ')
-          .some((insult) => keys.includes(insult))
-      ) {
-        const resp = await fetch('https://insult.mattbas.org/api/insult');
-
-        const insult = await resp.text();
-
-        await message.reply(insult);
-      }
+      await fetchInsults(`${OPTIONS.INSULT_URL}`, message, OPTIONS.KEYS, null);
     }
   } catch (error) {
     console.log(error);
