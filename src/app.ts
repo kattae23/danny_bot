@@ -1,16 +1,8 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { fetchGiphyImage, fetchImage, fetchInsults } from './hooks/fetch-api';
+import { OPTIONS } from './utils/constants';
 dotenv.config();
-
-const OPTIONS = {
-  GIPHY_URL: `${process.env.API_GIPHY_URL}?api_key=${process.env.GIPHY_KEY}`,
-  ADJETIVE_URL: `${process.env.ADJETIVE_API_URL}`,
-  INSULT_URL: `${process.env.INSULT_API_URL}`,
-  INSULTS: ['puto', 'linda', 'puta', 'perra', 'pene', 'pipe'],
-  KEYS: ['insultame', 'insult me', 'insúltame', 'insult', 'insu'],
-  GIFS: ['giphy', 'gif'],
-};
 
 const client = new Client({
   intents: [
