@@ -45,7 +45,7 @@ client.on(Events.MessageCreate, async (message) => {
     }
   } catch (error) {
     console.log(error);
-    message.reply('ocurrió un error al mandar la imagen');
+    message.reply('ocurrió un error al mandar la imagen 3333');
     message.reply(error);
   }
 });
